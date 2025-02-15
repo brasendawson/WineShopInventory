@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-gcl53+chsmrbd6cw9-(@ug@p&2n5gack-i0(@mvy^-4@j4o20y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.10.42', '127.0.0.1']
 
 
 # Application definition
@@ -80,8 +80,13 @@ WSGI_APPLICATION = 'wineshop.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'wine_shop',
+        'USER': 'root',
+        'PASSWORD': 'E8xfT#jjgc!5G@s',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+
     }
 }
 
