@@ -8,7 +8,7 @@ class Drink(models.Model):
     category = models.ForeignKey('Category', on_delete=models.SET_NULL, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="drinks")
+    employee = models.ForeignKey(User, on_delete=models.CASCADE, related_name="drinks")
     def __str__(self):
         return self.name
     

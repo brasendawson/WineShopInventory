@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, permissions
 from .models import Drink, EditHistory
 from rest_framework.views import APIView
-from .serializers import DrinkSerializer
+# from .serializers import DrinkSerializer
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
@@ -32,7 +32,7 @@ class Dashboard(LoginRequiredMixin, View):
         drinks = Drink.objects.filter().order_by('id')
 
         low_drinks = Drink.objects.filter(
-			creator=self.request.user.id,
+			employee=self.request.user.id,
 			quantity__lte=LOW_QUANTITY
 		)
 
@@ -43,7 +43,7 @@ class Dashboard(LoginRequiredMixin, View):
                 messages.error(request, f'{low_drinks.count()} drink has low stock')
 
         low_drinks_ids = Drink.objects.filter(
-			creator=self.request.user.id,
+			employee=self.request.user.id,
 			quantity__lte=LOW_QUANTITY
 		).values_list('id', flat=True)
 
@@ -83,7 +83,7 @@ class SignUpView(View):
 #     filterset_fields = ['category']
 
 #     def perform_create(self, serializer):
-#         serializer.save(creator=self.request.user)
+#         serializer.save(employee=self.request.user)
         
 
 
@@ -97,12 +97,12 @@ class SignUpView(View):
     
 
 #     def perform_update(self, serializer):
-#         if self.get_object().creator != self.request.user:
+#         if self.get_object().employee != self.request.user:
 #             raise permissions.PermissionDenied("You cannot edit someone else's Inventory.")
 #         serializer.save()
 
 #     def perform_destroy(self, instance):
-#         if instance.creator != self.request.user:
+#         if instance.employee != self.request.user:
 #             raise permissions.PermissionDenied("You cannot delete someone else's Inventory.")
 #         instance.delete()
 
@@ -132,7 +132,7 @@ class AddDrink(LoginRequiredMixin, CreateView):
 		return context
 
 	def form_valid(self, form):
-		form.instance.creator = self.request.user
+		form.instance.employee = self.request.user
 		return super().form_valid(form)
 
 class EditDrink(LoginRequiredMixin, UpdateView):
@@ -142,7 +142,7 @@ class EditDrink(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('dashboard')
 
     def form_valid(self, form):
-        form.instance.creator = self.request.user
+        form.instance.employee = self.request.user
         response = super().form_valid(form)
         # Create an EditHistory entry
         EditHistory.objects.create(drink=self.object, editor=self.request.user)
