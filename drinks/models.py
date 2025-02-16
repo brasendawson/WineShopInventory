@@ -21,4 +21,16 @@ class Category(models.Model):
 	def __str__(self):
 		return self.name
 
+class EditHistory(models.Model):
+    drink = models.ForeignKey(Drink, on_delete=models.CASCADE, related_name='edit_history')
+    editor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    edit_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.drink.name} edited by {self.editor.username} at {self.edit_time}'
+
+
+
+
+
 # Create your models here.

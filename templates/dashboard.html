@@ -30,7 +30,7 @@
 						<th scope="col">Qty</th>
 						<th scope="col">Category</th>
 						<th scope="col">Price</th>
-						<th scope="col"></th>
+						<th scope="col">Last Employee Edit</th>
 						<th scope="col"></th>
 					</tr>
 				</thead>
@@ -50,11 +50,16 @@
 					<tr>
 						<th scope="row">{{ drink.id }}</th>
 						<td>{{ drink.name }}</td>
-						<td>{{ drink.quantity }}</td>
+						{% if drink.id in low_drinks_ids %}
+							<td class="text-danger">{{ drink.quantity }}</td>
+						{% else %}
+							<td class="text-success">{{ drink.quantity }}</td>
+						{% endif %}
 						<td>{{ drink.category.name }}</td>
 						<td>{{ drink.price }}</td>
-                        <td></td>
-                        <td></td>
+						<td>{{ drink.creator }} , {{ drink.last_updated }}</td>
+                        <td><a href="{% url 'edit-drink' drink.id %}" class="btn btn-outline-secondary">Edit</a></td>
+                        <td><a href="{% url 'delete-drink' drink.id %}" class="btn btn-secondary">Delete</a></td>
 					</tr>
 					{% endfor %}
 				</tbody>
