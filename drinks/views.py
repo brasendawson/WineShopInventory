@@ -143,10 +143,9 @@ class EditDrink(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.employee = self.request.user
-        response = super().form_valid(form)
-        # Create an EditHistory entry
-        EditHistory.objects.create(drink=self.object, editor=self.request.user)
-        return response
+        drink = form.save()
+        EditHistory.objects.create(drink=drink, editor=self.request.user, changes="Updated drink details")
+        return super().form_valid(form)
 
 
 class DeleteDrink(LoginRequiredMixin, DeleteView):

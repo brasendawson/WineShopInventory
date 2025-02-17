@@ -11,7 +11,6 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 class DrinkForm(forms.ModelForm):
-    category = forms.ModelChoiceField(queryset=Category.objects.all(), initial=0)
     class Meta:
         model = Drink
         fields = ['name' , 'quantity' , 'category' , 'price']
