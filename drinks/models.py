@@ -13,7 +13,6 @@ class Drink(models.Model):
         return self.name
     
     def log_edit(self, editor, changes=None):
-        # Log the edit in the EditHistory model
         EditHistory.objects.create(drink=self, editor=editor, changes=changes)
 
 class Category(models.Model):
